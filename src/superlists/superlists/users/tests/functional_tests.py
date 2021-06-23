@@ -14,8 +14,9 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000')
 
         # Verify that we are on the right page
+        # assert 'To-do' in self.browser.title
         self.assertIn('To-do', self.browser.title)
-        self.fail('Finish the test!')
+        # self.fail('Finish the test!')
 
         # Isaac sees there is a way to enter a new to do item
 
