@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "testdrivendevelopmentwithpython"
+version = "0.1.0"
+description = "Project the is built after the book Test Driven development with Python"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.4"
+selenium = "^3.141.0"
+loguru = "^0.5.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
