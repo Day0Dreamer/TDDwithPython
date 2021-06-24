@@ -1,2 +1,2 @@
 cls
-pytest src\superlists\lists
+pytest src\superlists\lists --durations=0
