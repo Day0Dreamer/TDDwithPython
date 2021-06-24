@@ -14,6 +14,15 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.browser.close()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id("id_list_table")
+        rows = table.find_elements_by_tag_name("tr")
+        self.assertIn(
+            row_text,
+            [row.text for row in rows],
+            f"New to-do item did not appear in table. Contents were:\n{table.text}",
+        )
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Go to a web address for the project page
         self.browser.get("http://localhost:8000")
@@ -36,13 +45,7 @@ class NewVisitorTest(unittest.TestCase):
         input_box.send_keys(Keys.ENTER)
         sleep(1)
 
-        table = self.browser.find_element_by_id("id_list_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn(
-            "1: Sell the gold nuggets",
-            [row.text for row in rows],
-            f"New to-do item did not appear in table. Contents were:\n{table.text}",
-        )
+        self.check_for_row_in_list_table("1: Sell the gold nuggets")
 
         # Isaac enters "Wash the golden goose"
         input_box = self.browser.find_element_by_id("id_new_item")
@@ -51,18 +54,8 @@ class NewVisitorTest(unittest.TestCase):
         sleep(1)
 
         # Isaac sees two entered items
-        table = self.browser.find_element_by_id("id_list_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn(
-            "1: Sell the gold nuggets",
-            [row.text for row in rows],
-            f"New to-do item did not appear in table. Contents were:\n{table.text}",
-        )
-        self.assertIn(
-            "2: Wash the golden goose",
-            [row.text for row in rows],
-            f"New to-do item did not appear in table. Contents were:\n{table.text}",
-        )
+        self.check_for_row_in_list_table("1: Sell the gold nuggets")
+        self.check_for_row_in_list_table("2: Wash the golden goose")
 
         # Isaac wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
