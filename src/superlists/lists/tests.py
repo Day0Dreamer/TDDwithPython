@@ -23,9 +23,7 @@ class HomePageTest(TestCase):
         response = self.client.post("/", data={"item_text": "A test list item"})
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"], "/")
-
-        # self.assertTemplateUsed(response, "home.html")
+        self.assertEqual(response["location"], "/lists/temporary_unique_url_for_a_list")
 
     def test_only_saves_items_when_necessary(self):
         self.client.get("/")
@@ -58,3 +56,14 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, "The first (ever) list item")
         self.assertEqual(second_saved_item.text, "The second list item")
+
+
+class ListViewTest(TestCase):
+    def test_displays_all_items(self):
+        Item.objects.create(text="itemey 1")
+        Item.objects.create(text="itemey 2")
+
+        response = self.client.get("/lists/temporary_unique_url_for_a_list")
+
+        self.assertContains(response, "itemey 1")
+        self.assertContains(response, "itemey 2")
