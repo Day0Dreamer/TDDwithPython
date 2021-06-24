@@ -5,12 +5,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
-from lists.views import home_page, view_list
+from lists.views import home_page, view_list, new_list
 
 urlpatterns = [
     # BACKUP path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("", home_page, name="home"),
-    path("lists/temporary_unique_url_for_a_list", view_list, name="view_list"),
+    path("lists/temporary_unique_url_for_a_list/", view_list, name="view_list"),
+    path("lists/new/", new_list, name="new_list"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
