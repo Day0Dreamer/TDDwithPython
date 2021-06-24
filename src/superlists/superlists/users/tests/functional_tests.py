@@ -2,11 +2,13 @@ from time import sleep
 from selenium import webdriver
 import unittest
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.chrome.options import Options
 
 class NewVisitorTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.browser = webdriver.Chrome()
+        chrome_config = Options()
+        chrome_config.headless = True
+        self.browser = webdriver.Chrome(options=chrome_config)
 
     def tearDown(self) -> None:
         self.browser.close()
