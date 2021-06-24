@@ -1,11 +1,16 @@
-from time import sleep
+from time import sleep, time
 from selenium import webdriver
 import unittest
+
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from django.test import LiveServerTestCase
+
+MAX_WAIT = 10
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self) -> None:
         chrome_config = Options()
         chrome_config.headless = True
@@ -14,18 +19,26 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.browser.close()
 
-    def check_for_row_in_list_table(self, row_text):
-        table = self.browser.find_element_by_id("id_list_table")
-        rows = table.find_elements_by_tag_name("tr")
-        self.assertIn(
-            row_text,
-            [row.text for row in rows],
-            f"New to-do item did not appear in table. Contents were:\n{table.text}",
-        )
+    def wait_for_row_in_list_table(self, row_text):
+        start_time = time()
+        while True:
+            try:
+                table = self.browser.find_element_by_id("id_list_table")
+                rows = table.find_elements_by_tag_name("tr")
+                self.assertIn(
+                    row_text,
+                    [row.text for row in rows],
+                    f"New to-do item did not appear in table. Contents were:\n{table.text}",
+                )
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time() - start_time > MAX_WAIT:
+                    raise e
+                sleep(0.25)
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Go to a web address for the project page
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 
         # Verify that we are on the right page
         # assert 'To-do' in self.browser.title
@@ -45,7 +58,7 @@ class NewVisitorTest(unittest.TestCase):
         input_box.send_keys(Keys.ENTER)
         sleep(1)
 
-        self.check_for_row_in_list_table("1: Sell the gold nuggets")
+        self.wait_for_row_in_list_table("1: Sell the gold nuggets")
 
         # Isaac enters "Wash the golden goose"
         input_box = self.browser.find_element_by_id("id_new_item")
@@ -54,8 +67,8 @@ class NewVisitorTest(unittest.TestCase):
         sleep(1)
 
         # Isaac sees two entered items
-        self.check_for_row_in_list_table("1: Sell the gold nuggets")
-        self.check_for_row_in_list_table("2: Wash the golden goose")
+        self.wait_for_row_in_list_table("1: Sell the gold nuggets")
+        self.wait_for_row_in_list_table("2: Wash the golden goose")
 
         # Isaac wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
