@@ -47,7 +47,7 @@ class NewVisitorTest(LiveServerTestCase):
         # assert 'To-do' in self.browser.title
         self.assertIn("To-do", self.browser.title)
         header_text = self.browser.find_element_by_tag_name("h1").text
-        self.assertIn("To-do", header_text)
+        self.assertIn("Start a new to-do list", header_text)
 
         # Isaac sees there is a way to enter a new to do item
         input_box = self.browser.find_element_by_id("id_new_item")
