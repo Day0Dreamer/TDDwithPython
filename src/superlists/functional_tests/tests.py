@@ -1,4 +1,6 @@
 from time import sleep, time
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 import unittest
 
@@ -10,7 +12,7 @@ from django.test import LiveServerTestCase
 MAX_WAIT = 3
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
         self.chrome_config = Options()
         self.chrome_config.headless = True
@@ -20,6 +22,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser = webdriver.Chrome(options=self.chrome_config)
 
     def tearDown(self) -> None:
+        self.browser.refresh()
         self.browser.close()
 
     def wait_for_row_in_list_table(self, row_text):
@@ -145,4 +148,4 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10
         )
-        
+

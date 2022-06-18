@@ -98,7 +98,9 @@
 </div>
 
 <div class="container">
-
+    <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 jumbotron" align="center">
     {% if messages %}
         {% for message in messages %}
             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}
@@ -110,15 +112,15 @@
 
     {% block content %}
         <h1>Start a new to-do list</h1>
-        <form method="POST" action="/lists/new/"/>
-            <p style="text-align: center;">
-                <input id="id_new_item" placeholder="Enter a to-do item" name="item_text"/>
-            </p>
+        <form method="POST" action="/lists/new/">
+            <input id="id_new_item" class="form-control input-lg" placeholder="Enter a to-do item" name="item_text"/>
             {% csrf_token %}
         </form>
 
     {% endblock content %}
-
+    </div>
+        <div class="col-md-3"></div>
+</div>
 </div> <!-- /container -->
 
 {% block modal %}{% endblock modal %}
