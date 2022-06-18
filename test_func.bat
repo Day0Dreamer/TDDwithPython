@@ -1,2 +1,2 @@
 cls
-pytest src\superlists\superlists\users\tests\functional_tests.py --durations=0
+pytest src\superlists\functional_tests\tests.py --durations=0

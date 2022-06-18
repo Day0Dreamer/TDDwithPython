@@ -111,8 +111,10 @@
     {% block content %}
         <h1>Start a new to-do list</h1>
         <form method="POST" action="/lists/new/"/>
+            <p style="text-align: center;">
+                <input id="id_new_item" placeholder="Enter a to-do item" name="item_text"/>
+            </p>
             {% csrf_token %}
-            <input id="id_new_item" placeholder="Enter a to-do item" name="item_text"/>
         </form>
 
     {% endblock content %}
