@@ -40,9 +40,8 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
 DATABASES = {
-    "default": env.db("DATABASE_URL", default="sqlite:///db.sqlite"),
+    "default": env.db("DATABASE_URL", default=f"sqlite:///{ROOT_DIR}/../../databases/db.sqlite"),
     # "default": env.db("DATABASE_URL", default="postgres://localhost/superlists"),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
