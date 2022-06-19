@@ -23,11 +23,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.staging_server = os.environ.get("STAGING_SERVER")
         if self.staging_server:
             self.live_server_url = f"http://{self.staging_server}"
-        self.browser = webdriver.Chrome(options=self.chrome_config)
+        else:
+            self.live_server_url = "http://django:8000"
+        self.browser = webdriver.Remote(command_executor='http://selenium:4444', options=self.chrome_config)
 
     def tearDown(self) -> None:
-        self.browser.refresh()
-        self.browser.close()
+        self.browser.quit()
 
     def wait_for_row_in_list_table(self, row_text):
         start_time = time()
@@ -108,7 +109,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # # We use a new browser session to make sure that no information
         # # of Jane's is coming through from cookies
         self.browser.quit()
-        self.browser = webdriver.Chrome(options=self.chrome_config)
+        self.browser = webdriver.Remote(command_executor='http://selenium:4444', options=self.chrome_config)
 
         # Francis visits the home page. There is no sign of Jane's list
         self.browser.get(self.live_server_url)

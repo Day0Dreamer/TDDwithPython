@@ -1,7 +1,7 @@
 import pytest
 
 from superlists.users.models import User
-from superlists.users.tests.factories import UserFactory
+from functional_tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
