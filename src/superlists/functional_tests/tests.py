@@ -1,3 +1,4 @@
+import os
 from time import sleep, time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -19,6 +20,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.chrome_config.add_experimental_option(
             "excludeSwitches", ["enable-logging"]
         )
+        self.staging_server = os.environ.get("STAGING_SERVER")
+        if self.staging_server:
+            self.live_server_url = f"http://{self.staging_server}"
         self.browser = webdriver.Chrome(options=self.chrome_config)
 
     def tearDown(self) -> None:
