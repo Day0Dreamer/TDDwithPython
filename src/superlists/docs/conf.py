@@ -19,7 +19,7 @@ if os.getenv("READTHEDOCS", default=False) == "True":
     os.environ["DJANGO_READ_DOT_ENV_FILE"] = "True"
     os.environ["USE_DOCKER"] = "no"
 else:
-    sys.path.insert(0, os.path.abspath(".."))
+    sys.path.insert(0, os.path.abspath("/app"))
 os.environ["DATABASE_URL"] = "sqlite:///readthedocs.db"
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
@@ -27,8 +27,8 @@ django.setup()
 # -- Project information -----------------------------------------------------
 
 project = "superlists"
-copyright = """2021, Day"""
-author = "Day"
+copyright = """2022, Daniel Roy Greenfeld"""
+author = "Daniel Roy Greenfeld"
 
 
 # -- General configuration ---------------------------------------------------
